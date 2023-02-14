@@ -26,14 +26,20 @@
         </div>
       </div>
     </div>
-    <div class="right">
+    <button class="right" @click="openUser">
         Подробнее
-    </div>
+    </button>
   </div>
 </template>
 <script>
 export default {
-  props: ['name', 'city', 'company']
+  props: ['name', 'city', 'company', 'id'],
+  emits: ['openUser'],
+  methods: {
+    openUser() {
+      this.$emit('openUser', this.id)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -53,6 +59,9 @@ export default {
         font-weight: bold;
       }
     }
+  }
+  .right {
+    color: #4B51EF;
   }
   .mr-5 {
     margin-right: 10px;

@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper">
-    <user-sorting></user-sorting>
+    <user-sorting
+      @sortingSity="sortingSity"
+      @sortingCompany="sortingCompany"
+    ></user-sorting>
     <div class="container">
       <div class="list">
         <div class="list__title">
@@ -17,6 +20,8 @@
         :name="item.name"
         :city="item.address.city"
         :company="item.company.name"
+        :id="item.id"
+        @openUser="openUser"
       />
       <div class="footer" v-if="items[0] !== undefined">
         <div class="footer__users">
@@ -31,12 +36,14 @@
 import CirclesLoader from '../components/CirclesLoader.vue'
 import UserSorting from '../components/UsersSorting.vue'
 import UserInfo from '../components/UserInfo.vue'
+import {useRouter} from 'vue-router'
 export default {
   components: {UserSorting, UserInfo,CirclesLoader},
   data() {
     return {
       items: this.$store.getters.GET_ITEMS,
-      loading: false
+      loading: false,
+      router: useRouter(),
     }
   },
   methods: {
@@ -53,11 +60,20 @@ export default {
     setResult(data) {
       this.items.push(data)
       this.loading = false
+    },
+    openUser(id) {
+      const index = this.items[0].find(e => e.id === id)
+      this.router.push(`/User/${index.id}`)
+    },
+    sortingCompany() {
+      this.items[0].sort((x, y) => x.company.name.localeCompare(y.company.name))
+    },
+    sortingSity() {
+      this.items[0].sort((x, y) => x.address.city.localeCompare(y.address.city))
     }
   },
   mounted() {
     this.requestServer()
-    console.log(this.items);
   }
 }
 </script>
