@@ -9,48 +9,99 @@
           Профиль пользователя
         </div>
         <div class="user__header--edit">
-          <button class="btn">Редактировать</button>
+          <button class="btn" @click="editProfile">Редактировать</button>
         </div>
         </div>
 
-        <form class="user__content">
+       <form class="user__content">
           <div class="user__content__name">
             <span>Name</span>
-            <input type="text" placeholder="Name">
+            <input type="text" 
+              required
+              :class="{readonly: read}"
+              placeholder="Name"
+              :value="doneTodosCount.name"
+              :readonly="this.read"
+            > 
           </div>
           <div class="user__content__name">
             <span>User name</span>
-            <input type="text" placeholder="User name">
+            <input type="text" 
+              required
+              :class="{readonly: read}"
+              placeholder="User name"
+              :value="doneTodosCount.username"
+              :readonly="this.read">
           </div>
           <div class="user__content__name">
             <span>E-mail</span>
-            <input type="email" placeholder="E-mail">
+            <input type="email" 
+              required
+              :class="{readonly: read}"
+              placeholder="E-mail"
+              :value="doneTodosCount.email"
+              :readonly="this.read"
+              >
           </div>
           <div class="user__content__name">
             <span>Street</span>
-            <input type="text" placeholder="Street">
+            <input type="text" 
+              required
+              :class="{readonly: read}"
+              placeholder="Street"
+              :value="doneTodosCount.address.street"
+              :readonly="this.read">
           </div>
           <div class="user__content__name">
             <span>City</span>
-            <input type="text" placeholder="City">
+            <input type="text" 
+              required
+              :class="{readonly: read}"
+              placeholder="City"
+              :value="doneTodosCount.address.city"
+              :readonly="this.read">
           </div>
           <div class="user__content__name">
             <span>Zip code</span>
-            <input type="text" placeholder="Zip code">
+            <input type="text" 
+              required
+              :class="{readonly: read}"
+              placeholder="Zip code"
+              :value="doneTodosCount.address.zipcode"
+              :readonly="this.read">
           </div>
           <div class="user__content__name">
             <span>Phone</span>
-            <input type="tel" placeholder="Phone">
+            <input type="tel" 
+              required
+              :class="{readonly: read}"
+              placeholder="Phone"
+              :value="doneTodosCount.phone"
+              :readonly="this.read">
           </div>
           <div class="user__content__name">
             <span>Website</span>
-            <input type="text" placeholder="Website">
+            <input type="text"  
+              :class="{readonly: read}"
+              placeholder="Website"
+              :value="doneTodosCount.website"
+              :readonly="this.read">
           </div>
           <div class="user__content__name">
             <span>Comment</span>
             <textarea></textarea>
           </div>
         </form>
+
+        <div class="user__footer">
+        <div class="user__footer--edit">
+          <button class="btn" 
+            @click="submit" 
+            :class="{none: this.read}"
+          >Отправить</button>
+        </div>
+        </div>
+
       </div>
     </div>
    </div>
@@ -58,7 +109,28 @@
 <script>
 import UsersSorting from '../components/UsersSorting.vue'
 export default {
-  components: {UsersSorting}
+  components: {UsersSorting},
+  data() {
+    return {
+      page: this.$route.params.id,
+      read: true
+    }
+  },
+  computed: {
+    doneTodosCount () {
+      return this.$store.getters.getIdItems(this.page)
+    }
+  },
+  methods: {
+    editProfile() {
+      this.read = false
+    },
+    submit() {
+      if (this.read === false) {
+        console.log('submit');
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -72,6 +144,10 @@ export default {
   input {
     border-radius: 5px;
     border: 1px solid #b9b9b9;
+  }
+  &__footer--edit {
+    display: flex;
+    justify-content: flex-end;
   }
   &__header {
     display: flex;
@@ -94,6 +170,9 @@ export default {
     }
   }
 }
+.readonly {
+  color: #b8b8b8;
+}
 textarea {
   border-radius: 5px;
   resize: none;
@@ -109,6 +188,13 @@ textarea {
   border-radius: 10px;
   &:hover {
     background-color: #9093e7;
+  }
+}
+.none {
+  background-color: grey;
+  cursor: default;
+  &:hover {
+    background-color: grey;
   }
 }
 @media (max-width: 425px) {

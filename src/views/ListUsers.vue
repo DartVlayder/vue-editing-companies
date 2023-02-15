@@ -15,13 +15,12 @@
       </div>
       <UserInfo 
         v-else
-        v-for="item in items[0]" 
-        :key="item"
+        v-for="(item, index) in items[0]" 
+        :key="index"
         :name="item.name"
         :city="item.address.city"
         :company="item.company.name"
-        :id="item.id"
-        @openUser="openUser"
+        @moreDetailed="moreDetailed(index)"
       />
       <div class="footer" v-if="items[0] !== undefined">
         <div class="footer__users">
@@ -47,6 +46,9 @@ export default {
     }
   },
   methods: {
+    moreDetailed(index) {
+      this.router.push(`/UserProfile/${index}`)
+    },
     requestServer() {
       this.loading = true
       fetch('https://jsonplaceholder.typicode.com/users')
@@ -61,16 +63,12 @@ export default {
       this.items.push(data)
       this.loading = false
     },
-    openUser(id) {
-      const index = this.items[0].find(e => e.id === id)
-      this.router.push(`/User/${index.id}`)
-    },
     sortingCompany() {
       this.items[0].sort((x, y) => x.company.name.localeCompare(y.company.name))
     },
     sortingSity() {
       this.items[0].sort((x, y) => x.address.city.localeCompare(y.address.city))
-    }
+    },
   },
   mounted() {
     this.requestServer()

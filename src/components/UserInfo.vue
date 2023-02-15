@@ -26,18 +26,17 @@
         </div>
       </div>
     </div>
-    <button class="right" @click="openUser">
+    <button class="right" @click="moreDetailed">
         Подробнее
     </button>
   </div>
 </template>
 <script>
 export default {
-  props: ['name', 'city', 'company', 'id'],
-  emits: ['openUser'],
+  props: ['name', 'city', 'company'], 
   methods: {
-    openUser() {
-      this.$emit('openUser', this.id)
+    moreDetailed() {
+      this.$emit('moreDetailed')
     }
   }
 }
