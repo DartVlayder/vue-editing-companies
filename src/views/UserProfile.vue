@@ -97,7 +97,11 @@
           </div>
           <div class="user__content__name">
             <span>Comment</span>
-            <textarea></textarea>
+            <textarea 
+              :class="{readonly: read}"
+              :readonly="this.read"
+              v-model="comment"
+            ></textarea>
           </div>
         </form>
 
@@ -131,6 +135,7 @@ export default {
       zipcode: '',
       phone: '',
       website: '',
+      comment: '',
       errors: {
         name: null,
         username: null,
@@ -163,6 +168,25 @@ export default {
       this.read = false
     },
     submit() {
+      if (this.formIsValid()) {
+        let arr = {
+          name :this.name, 
+          username: this.username, 
+          email: this.email, 
+          adress: {
+            city: this.city,
+            street: this.street, 
+            zipcode: this.zipcode
+          }, 
+          phone: this.phone, 
+          website: this.website,
+          comment: this.comment
+        }
+        let newarr = JSON.stringify(arr)
+        console.log(newarr)
+      }
+    },
+    formIsValid() {
       let isValid = true
       if (this.name.length === 0
         ) {
@@ -219,6 +243,9 @@ export default {
         isValid = false
       } else {
         this.errors.website = null
+      }
+      if (this.read === true) {
+        isValid = false
       }
       return isValid
     }

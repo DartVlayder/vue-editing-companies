@@ -11,7 +11,7 @@
       </div>
       <div class="left__name">
         <div class="left__name--title mr-5">
-            Город:
+          Город:
         </div>
         <div class="left__name__user">
             {{city}}
@@ -19,10 +19,10 @@
       </div>
       <div class="left__name">
         <div class="left__name--title mr-5">
-            Компания:
+          Компания:
         </div>
         <div class="left__name__user">
-            {{company}}
+          {{company}}
         </div>
       </div>
     </div>
